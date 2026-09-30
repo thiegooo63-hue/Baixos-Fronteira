@@ -1,0 +1,26 @@
+{
+  "name": "baixos-fronteira-jaguarao",
+  "version": "10.2.0",
+  "private": true,
+  "description": "Site e painel administrativo Baixos Fronteira em Next.js",
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0",
+    "build": "npm run verify && next build --webpack --experimental-app-only",
+    "start": "node index.js",
+    "check": "npm run verify && npm run build",
+    "start:next": "next start -H 0.0.0.0",
+    "verify": "node scripts/verify-project.mjs",
+    "build:memory": "NODE_OPTIONS=\"--max-old-space-size=640 --max-semi-space-size=32\" next build --webpack --experimental-app-only",
+    "audit": "npm run verify && node scripts/audit-v10.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.117.2",
+    "next": "16.3.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "main": "index.js"
+}

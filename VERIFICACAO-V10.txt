@@ -1,0 +1,48 @@
+BAIXOS FRONTEIRA — V10 FINAL
+VERIFICAÇÃO ESTÁTICA / BANCO / EMPACOTAMENTO
+
+VALIDADO ANTES DO ZIP
+- scripts/verify-project.mjs: OK
+- scripts/audit-v10.mjs: OK
+- 30 arquivos JS/JSX/MJS analisados por parser: 0 erros
+- app/(site)/site.css: 0 erros de parsing CSS
+- app/admin/admin.css: 0 erros de parsing CSS
+- index.js: sintaxe OK
+- next.config.mjs / manifest / sitemap / robots: sintaxe OK
+- rotas: sem padrões duplicados detectados
+- assets referenciados: conferidos
+
+V10 IMPLEMENTA
+- build de menor memória usando Webpack + build worker + memory optimizations
+- fallback de emergência caso o processo de build seja morto pela hospedagem
+- hierarquia final da home e acabamento automotivo preto/vermelho
+- contador automotivo
+- página de encontro reorganizada com capa/mapa/QR/compartilhamento
+- galeria com foto/vídeo, compressão de imagem, lightbox, setas e swipe
+- patrocinadores em carrossel e patrocinadores por encontro
+- analytics próprio de visitas/cliques no admin
+- dashboard V10
+- backup/desfazer, quinta protegida e modo emergência
+- PWA/offline básico e notificações locais enquanto site/PWA está ativo
+- SEO/Open Graph/sitemap/robots
+- performance/lazy loading/cache/content-visibility
+- 404 “Saiu da pista”
+- estados vazios e skeletons
+
+SUPABASE AO VIVO
+- events.sponsor_ids: confirmado
+- gallery_items.media_type: confirmado
+- site_analytics + RLS: confirmado
+- gallery aceita foto/vídeo até 50 MB: confirmado
+- sponsor-media aceita foto/vídeo até 50 MB: confirmado
+- índices de hardening aplicados
+- advisor de performance: restaram somente avisos informativos de índices ainda sem uso
+
+AVISOS DE SEGURANÇA JÁ EXISTENTES NO PROJETO
+- public.claim_team_invite() continua marcado pelo advisor por ser SECURITY DEFINER; a função foi inspecionada e valida usuário autenticado + convite/equipe antes de alterar membros.
+- proteção de senhas vazadas do Supabase Auth continua desabilitada no projeto.
+
+LIMITAÇÃO DESTE AMBIENTE
+Não foi possível executar um `next build` completo localmente porque o ambiente de trabalho não conseguiu acessar o registry do npm para instalar node_modules/package-lock. Por isso a V10 não declara que a build de produção local passou.
+
+A correção específica para o SIGKILL foi implementada no launcher/config: build Webpack econômica e fallback de disponibilidade se a hospedagem matar somente o processo de compilação.

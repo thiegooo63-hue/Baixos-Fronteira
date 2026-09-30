@@ -1,0 +1,77 @@
+BAIXOS FRONTEIRA — V10.2 HOTFIX DE MEMÓRIA / VERTRACLOUD
+
+Envie o ZIP completo com package.json, index.js, app/, components/, lib/, public/ e demais arquivos na RAIZ do projeto.
+
+RUNTIME
+- Node.js: 22+
+- Next.js: 16.3.6
+- Arquivo principal: index.js
+- Instalação: npm install
+- Inicialização: npm start
+- Porta: lida automaticamente da variável PORT da hospedagem (fallback 80)
+
+IMPORTANTE SOBRE O BUILD
+A V10 foi preparada especificamente para reduzir o pico de memória que causou SIGKILL na hospedagem:
+- build de produção usa Webpack em vez do Turbopack;
+- build worker habilitado;
+- otimizações de memória do Webpack habilitadas;
+- source maps de produção desabilitados;
+- coleta de páginas limitada a 1 worker (experimental.cpus = 1);
+- geração estática limitada a 1 página por vez;
+- todas as rotas entram em um único lote de geração;
+- source maps de prerender desabilitados;
+- processo de build recebe limite de heap próprio;
+- a porta externa abre ANTES da compilação.
+
+NÃO configure um comando externo que fique repetindo `next build`.
+Use apenas:
+  npm start
+
+FLUXO DO index.js
+1. Abre a porta imediatamente.
+2. Se existir .next/BUILD_ID: inicia Next em modo produção.
+3. Se não existir: executa build econômica em processo filho.
+4. Se a build concluir: inicia produção.
+5. Se o processo de build ainda for morto/falhar: inicia fallback de emergência já sob a mesma configuração de 1 worker.
+
+NO LOG CORRETO DA V10.2, procure por:
+  Collecting page data using 1 worker
+  Generating static pages using 1 worker
+Se aparecer 13 workers, a hospedagem ainda está usando o ZIP antigo.
+
+O fallback é uma proteção de disponibilidade; produção compilada continua sendo o modo ideal.
+
+ROTAS
+/                site público
+/agenda          agenda
+/e/quinta        link curto do encontro oficial
+/admin           painel administrativo
+/health          health check
+/healthz         health check alternativo
+/sitemap.xml     sitemap
+/robots.txt      robots
+
+SUPABASE
+Project ID: voxvkfumjufhydfdqzoc
+
+Variáveis recomendadas:
+NEXT_PUBLIC_SUPABASE_URL=https://voxvkfumjufhydfdqzoc.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_50GX6ORHnfFl1aUmtFSZNA_2SaECJDv
+NEXT_PUBLIC_SITE_URL=https://baixosfronteirajag.vertraweb.app
+
+A chave sb_publishable_... é pública e própria para frontend.
+NUNCA coloque service_role, secret key, senha do banco ou qualquer outro segredo no projeto público.
+
+HEALTH
+Durante preparação/build, /health pode informar building.
+Em produção pronta, informa online.
+Se o provedor matar a build e o modo de emergência entrar, o health indica online-fallback.
+
+PAINEL / PWA / MÍDIA
+- Admin: /admin
+- Fotos e vídeos aceitos na galeria conforme limite do Storage (50 MB no bucket atual).
+- Imagens são comprimidas no cliente antes do upload.
+- PWA possui cache/offline básico e notificações locais enquanto o PWA/site está ativo.
+
+SUPABASE AUTH
+No Supabase > Authentication > URL Configuration, mantenha o domínio publicado entre as URLs permitidas quando necessário para fluxos de autenticação.

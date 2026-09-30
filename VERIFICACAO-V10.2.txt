@@ -1,0 +1,25 @@
+BAIXOS FRONTEIRA — V10.2 REDES OFICIAIS
+
+Base: V10.1 Hotfix de Memória
+
+Redes configuradas:
+- Instagram: @baixos_fronteira_jag
+- TikTok: @baixos_fronteira_jag
+- Threads: @baixos_fronteira_jag (threads.com)
+
+Interface:
+- item Redes no menu
+- 3 acessos rápidos no hero
+- seção Redes com abas Instagram/TikTok/Threads
+- links no rodapé
+- edição pelo Admin > Site
+- analytics das três redes
+
+Validação:
+- verify-project: OK
+- audit-v10: OK
+- 30 JS/JSX/MJS: parse OK
+- site.css/admin.css: parse OK
+- Next 16.3.6 mantido
+- cpus: 1 mantido
+- staticGenerationMaxConcurrency: 1 mantido
